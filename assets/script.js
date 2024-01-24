@@ -1,13 +1,15 @@
 var timerEl = document.getElementById('timer');
 var startQuizBtn = document.querySelector('#startQuizBtn');
+var initialsBtn = document.querySelector('#initialsBtn');
 var quizContainer = document.querySelector('.quiz-container');
 var questionContainer = document.querySelector('.question-container');
+var scoreText = document.querySelector('.score-text');
 var questionText = document.querySelector('#question-text');
+var feedbackText = document.querySelector('#feedback-text');
 var questionPos1 = document.querySelector('.pos1');
 var questionPos2 = document.querySelector('.pos2');
 var questionPos3 = document.querySelector('.pos3');
 var questionPos4 = document.querySelector('.pos4');
-var feedbackText = document.querySelector('#feedback-text');
 var timeLeft;
 var score=0;
 
@@ -85,18 +87,6 @@ function startQuiz(event) {
   displayQuestion();
 }
 
-function validateAnswer() {
-  if(currentAns == answerPool[currentQuestion]) {
-    currentQuestion++;
-    score++;
-    feedbackText.textContent = 'Correct!'
-    return true;
-  }
-  timeLeft -= 10;
-  currentQuestion++;
-  feedbackText.textContent = 'Wrong!'
-  return false;
-}
 
 function displayQuestion() {
   questionText.textContent = questionPool[currentQuestion];
@@ -108,22 +98,38 @@ function displayQuestion() {
 
 function displayScore() {
   // temp solution
-  questionText.textContent = 'Your final score is ' + score;
+  quizContainer.classList.remove('d-flex');
+  quizContainer.classList.add('d-none');
+  scoreText.parentElement.classList.remove('d-none');
+  scoreText.parentElement.classList.add('d-block');
+
+  scoreText.textContent = 'Your final score is ' + score;
+
 }
 
 questionContainer.addEventListener("click", function(event) {
   var element = event.target;
   if (element.matches(".card-body")) {
     currentAns = element.dataset.number;
-    validateAnswer();
+    // check if answer is correct
+    if(currentAns == answerPool[currentQuestion]) {
+      currentQuestion++;
+      score += 10;
+      feedbackText.textContent = 'Correct!'
+    } else {
+      timeLeft -= 10;
+      score -= 5;
+      currentQuestion++;
+      feedbackText.textContent = 'Wrong!'
+    }
     if(currentQuestion < questionPool.length) {
       displayQuestion();
     } else {
       displayScore()
     }
   }
-
 });
+
 
 // call countdown() when user starts the quiz
 startQuizBtn.onclick = startQuiz;
