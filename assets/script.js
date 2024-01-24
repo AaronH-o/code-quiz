@@ -1,6 +1,7 @@
 var timerEl = document.getElementById('timer');
 var startQuizBtn = document.querySelector('#startQuizBtn');
-var initialsBtn = document.querySelector('#initialsBtn');
+var initialsBtn = document.querySelector('.initialsBtn');
+var initialsInput = document.querySelector('.form-control');
 var quizContainer = document.querySelector('.quiz-container');
 var questionContainer = document.querySelector('.question-container');
 var scoreText = document.querySelector('.score-text');
@@ -97,14 +98,12 @@ function displayQuestion() {
 }
 
 function displayScore() {
-  // temp solution
   quizContainer.classList.remove('d-flex');
   quizContainer.classList.add('d-none');
   scoreText.parentElement.classList.remove('d-none');
   scoreText.parentElement.classList.add('d-block');
-
+  timeLeft = 0;
   scoreText.textContent = 'Your final score is ' + score;
-
 }
 
 questionContainer.addEventListener("click", function(event) {
@@ -130,6 +129,54 @@ questionContainer.addEventListener("click", function(event) {
   }
 });
 
+function submitScore() {
+  let highscoreObj = {
+    highscoreInitials: initialsInput.value.trim(),
+    highscore: score,
+
+  }
+  if(highscoreObj.initials == '') {
+    return;
+  }
+ 
+  let initialsArray = [];
+  // look for and update list of initials to search for
+  if(localStorage.getItem('hsInitials') == null) {
+    initialsArray.push(highscoreObj.highscoreInitials);
+    localStorage.setItem('hsInitials', initialsArray.toString());
+  } else {
+    initialsArray = localStorage.getItem('hsInitials').split(",");
+  
+    if(!initialsArray.includes(highscoreObj.highscoreInitials)) {
+      initialsArray.push(highscoreObj.highscoreInitials);
+      localStorage.setItem('hsInitials', initialsArray.toString());
+    }
+  }
+
+  // save score to local storage
+  localStorage.setItem(highscoreObj.highscoreInitials, highscoreObj.highscore);
+  displayHighscores();
+}
+
+function displayHighscores() {
+  // pull highscores from local storage and display
+  let initialsArray=[];
+  if(localStorage.getItem('hsInitials') == null) {
+    // display 'no highscores saved'
+
+    return;
+  }
+  initialsArray = localStorage.getItem('hsInitials').split(",");
+
+  for(let i = 0; i < initialsArray.length; i++) {
+    console.log(initialsArray[i], localStorage.getItem(initialsArray[i]));
+    
+  }
+
+}
+
+
 
 // call countdown() when user starts the quiz
 startQuizBtn.onclick = startQuiz;
+initialsBtn.onclick = submitScore;
