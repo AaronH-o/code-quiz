@@ -5,6 +5,7 @@ var initialsInput = document.querySelector('.form-control');
 var quizContainer = document.querySelector('.quiz-container');
 var questionContainer = document.querySelector('.question-container');
 var scoreText = document.querySelector('.score-text');
+var scoreList = document.querySelector('.score-list');
 var questionText = document.querySelector('#question-text');
 var feedbackText = document.querySelector('#feedback-text');
 var questionPos1 = document.querySelector('.pos1');
@@ -155,22 +156,52 @@ function submitScore() {
 
   // save score to local storage
   localStorage.setItem(highscoreObj.highscoreInitials, highscoreObj.highscore);
+  scoreText.parentElement.classList.add('d-none');
+  scoreText.parentElement.classList.remove('d-block');
   displayHighscores();
 }
 
 function displayHighscores() {
   // pull highscores from local storage and display
   let initialsArray=[];
+  let sortedScoreArray = [];
+
   if(localStorage.getItem('hsInitials') == null) {
     // display 'no highscores saved'
 
     return;
   }
+
+  scoreList.parentElement.classList.remove('d-none');
+  scoreList.parentElement.classList.add('d-block');
+
   initialsArray = localStorage.getItem('hsInitials').split(",");
 
   for(let i = 0; i < initialsArray.length; i++) {
     console.log(initialsArray[i], localStorage.getItem(initialsArray[i]));
-    
+    sortedScoreArray.push([initialsArray[i], localStorage.getItem(initialsArray[i])]);
+  }
+
+  // sort array
+  sortedScoreArray.sort(compareScore);
+  function compareScore(x,y) {
+    if(Number(x[1])===Number(y[1])) {
+      return 0;
+    } else {
+      return (Number(x[1]) < Number(y[1])) ? -1 : 1;
+    }
+  }
+  console.log(sortedScoreArray);
+
+  // clear previous list items before remaking list
+  scoreList.innerHTML = '';
+  
+  // create li elements from the array
+  for(let i = sortedScoreArray.length-1; i >= 0; i--) {
+    var li = document.createElement('li');
+    li.setAttribute('class', 'list-group-item');
+    scoreList.appendChild(li);
+    li.innerHTML=li.innerHTML + sortedScoreArray[i][0] + '    ' + sortedScoreArray[i][1];
   }
 
 }
