@@ -17,48 +17,48 @@ var timeLeft;
 var score=0;
 
 var questionPool = [
-  '1 question',
-  '2 question',
-  '3 Question',
-  '4 question',
-  '5 question',
-  '6 Question',
-  '7 question',
-  '8 question',
-  '9 Question',
-  '10 question',
-  '11 question',
-  '12 Question'
+  'Commonly used data types do NOT include: ',
+  'The condition in an if/else statement is enclosed with _____.',
+  'Arrays in JavaScript can be used to store _____.',
+  'String values must be enclosed within _____ when being assigned to variables.',
+  'A very useful tool used during development and debugging for printing content to the debugger is: '
+  // '6 Question',
+  // '7 question',
+  // '8 question',
+  // '9 Question',
+  // '10 question',
+  // '11 question',
+  // '12 Question'
 ];
 
 var answerPool = [
-  '1',
-  '2',
   '3',
-  '1',
-  '2',
   '3',
-  '1',
-  '2',
+  '4',
   '3',
-  '1',
-  '2',
-  '3'
+  '4'
+  // '3',
+  // '1',
+  // '2',
+  // '3',
+  // '1',
+  // '2',
+  // '3'
 ]
 
 var questionOptions = [
-  ['correct', '1b', '1c', '1d'],
-  ['2a', 'correct', '2c', '2d'],
-  ['3a', '3b', 'correct', '3d'],
-  ['correct', '1b', '1c', '1d'],
-  ['2a', 'correct', '2c', '2d'],
-  ['3a', '3b', 'correct', '3d'],
-  ['correct', '1b', '1c', '1d'],
-  ['2a', 'correct', '2c', '2d'],
-  ['3a', '3b', 'correct', '3d'],
-  ['correct', '1b', '1c', '1d'],
-  ['2a', 'correct', '2c', '2d'],
-  ['3a', '3b', 'correct', '3d']
+  ['1. strings', '2. booleans', '3. alerts', '4. numbers'],
+  ['1. quotes', '2. curly brackets', '3. parenthesis', '4. square brackets'],
+  ['1. numbers and strings', '2. other arrays', '3. booleans', '4. all of the above'],
+  ['1. commas', '2. curly brackets', '3. quotes', '4. parenthesis'],
+  ['1. JavaScript', '2. terminal/bash', '3. for loops', '4. console.log'],
+  // ['3a', '3b', 'correct', '3d'],
+  // ['correct', '1b', '1c', '1d'],
+  // ['2a', 'correct', '2c', '2d'],
+  // ['3a', '3b', 'correct', '3d'],
+  // ['correct', '1b', '1c', '1d'],
+  // ['2a', 'correct', '2c', '2d'],
+  // ['3a', '3b', 'correct', '3d']
 ]
 
 var currentAns = 0;
