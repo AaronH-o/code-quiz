@@ -1,6 +1,7 @@
 var timerEl = document.getElementById('timer');
 var startQuizBtn = document.querySelector('#startQuizBtn');
 var initialsBtn = document.querySelector('.initialsBtn');
+var scoreBtn = document.querySelector('#view-score-btn');
 var initialsInput = document.querySelector('.form-control');
 var quizContainer = document.querySelector('.quiz-container');
 var questionContainer = document.querySelector('.question-container');
@@ -65,7 +66,7 @@ var currentQuestion = 0;
 var score = 0;
 
 function countdown() {
-  timeLeft = 79;
+  timeLeft = 80;
   var timeInterval = setInterval(function () {
     if (timeLeft > 0) {
       timerEl.textContent = 'Time: ' + timeLeft;
@@ -125,7 +126,7 @@ questionContainer.addEventListener("click", function(event) {
     if(currentQuestion < questionPool.length) {
       displayQuestion();
     } else {
-      displayScore()
+      displayScore();
     }
   }
 });
@@ -172,6 +173,12 @@ function displayHighscores() {
     return;
   }
 
+  startQuizBtn.parentElement.parentElement.classList.remove('d-block');
+  startQuizBtn.parentElement.parentElement.classList.add('d-none');
+  quizContainer.classList.remove('d-flex');
+  quizContainer.classList.add('d-none');
+  scoreText.parentElement.classList.add('d-none');
+  scoreText.parentElement.classList.remove('d-block');
   scoreList.parentElement.classList.remove('d-none');
   scoreList.parentElement.classList.add('d-block');
 
@@ -195,14 +202,27 @@ function displayHighscores() {
 
   // clear previous list items before remaking list
   scoreList.innerHTML = '';
-  
+  scoreList.parentElement.children[2].innerHTML = '';
+
   // create li elements from the array
   for(let i = sortedScoreArray.length-1; i >= 0; i--) {
     var li = document.createElement('li');
     li.setAttribute('class', 'list-group-item');
     scoreList.appendChild(li);
-    li.innerHTML=li.innerHTML + sortedScoreArray[i][0] + '    ' + sortedScoreArray[i][1];
+    li.innerHTML=li.innerHTML + sortedScoreArray[i][0] + ': ' + sortedScoreArray[i][1];
   }
+  var btn = document.createElement('button');
+  btn.classList.add('btn', 'btn-large', 'btn-primary', 'col-3');
+  scoreList.parentElement.children[2].appendChild(btn);
+  btn.innerHTML='return to main menu';
+
+  btn.addEventListener('click', function() {
+    scoreList.parentElement.classList.add('d-none');
+    scoreList.parentElement.classList.remove('d-block');
+    startQuizBtn.parentElement.parentElement.classList.add('d-block');
+    startQuizBtn.parentElement.parentElement.classList.remove('d-none');
+    
+  });
 
 }
 
@@ -211,3 +231,4 @@ function displayHighscores() {
 // call countdown() when user starts the quiz
 startQuizBtn.onclick = startQuiz;
 initialsBtn.onclick = submitScore;
+scoreBtn.addEventListener('click', displayHighscores);
